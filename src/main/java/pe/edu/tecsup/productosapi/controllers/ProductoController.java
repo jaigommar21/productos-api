@@ -100,5 +100,19 @@ public class ProductoController {
 		return ResponseEntity.ok().body("Registro eliminado");
 	}
 
+	@GetMapping("/productos/{id}")
+	public Producto obtener(@PathVariable Long id) throws Exception{
+		logger.info("call obtener: " + id);
+		
+		Producto producto = productoService.findById(id);
+		/*
+		Link link = linkTo(methodOn(ProductoController.class).obtener(id)).withSelfRel();
+		producto.add(link);
+		
+		link = linkTo(methodOn(ProductoController.class).files(producto.getImagen())).withRel("imagen");
+		producto.add(link);
+		*/
+		return producto; 
+	}
 	
 }
