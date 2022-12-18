@@ -35,6 +35,8 @@ public class ProductoController {
 	@Autowired
 	private ProductoService productoService;
 
+
+	// QUERY
 	@GetMapping("/productos")
 	public List<Producto> productos() {
 		logger.info("call productos");
@@ -45,6 +47,7 @@ public class ProductoController {
 		return productos;
 	}
 
+	// QUERY
 	@GetMapping("/productos/images/{filename:.+}")
 	public ResponseEntity<Resource> files(@PathVariable String filename) throws Exception {
 		logger.info("call images: " + filename);
@@ -65,7 +68,7 @@ public class ProductoController {
 				.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(resource.contentLength())).body(resource);
 	}
 
-	
+	// CREATE
 	@PostMapping("/productos")
 	public Producto crear(@RequestParam(name="imagen", required=false) MultipartFile imagen, @RequestParam("nombre") String nombre, @RequestParam("precio") Double precio, @RequestParam("detalles") String detalles) throws Exception {
 		logger.info("call crear(" + nombre + ", " + precio + ", " + detalles + ", " + imagen + ")");
@@ -90,7 +93,7 @@ public class ProductoController {
 		return producto;
 	}
 
-	
+	// DELETE
 	@DeleteMapping("/productos/{id}")
 	public ResponseEntity<String> eliminar(@PathVariable Long id) {
 		logger.info("call eliminar: " + id);
@@ -100,5 +103,16 @@ public class ProductoController {
 		return ResponseEntity.ok().body("Registro eliminado");
 	}
 
+	
+    @GetMapping("/productos/{id}")
+	public Producto obtener(@PathVariable Long id) throws Exception{
+		logger.info("call obtener: " + id);
+		
+		Producto producto = productoService.findById(id);
+		
+		return producto; 
+	}
+
+    
 	
 }
