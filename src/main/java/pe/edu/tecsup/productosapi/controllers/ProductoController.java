@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,7 +82,7 @@ public class ProductoController {
 		producto.setEstado("1");
 		
 		if (imagen != null && !imagen.isEmpty()) {
-			String filename = System.currentTimeMillis() + imagen.getOriginalFilename().substring(imagen.getOriginalFilename().lastIndexOf("."));
+			String filename = imagen.getOriginalFilename();
 			producto.setImagen(filename);
 			if(Files.notExists(Paths.get(STORAGEPATH))){
 		        Files.createDirectories(Paths.get(STORAGEPATH));
@@ -93,8 +95,12 @@ public class ProductoController {
 		return producto;
 	}
 
-	// DELETE
-	@DeleteMapping("/productos/{id}")
+	/**
+	 *  Delete product
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/productos/id/{id}")
 	public ResponseEntity<String> eliminar(@PathVariable Long id) {
 		logger.info("call eliminar: " + id);
 		
@@ -104,7 +110,7 @@ public class ProductoController {
 	}
 
 	
-    @GetMapping("/productos/{id}")
+    @GetMapping("/productos/id/{id}")
 	public Producto obtener(@PathVariable Long id) throws Exception{
 		logger.info("call obtener: " + id);
 		
@@ -113,6 +119,38 @@ public class ProductoController {
 		return producto; 
 	}
 
-    
+    /**
+     *  Actualizar 
+     *  
+     * @param id
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @PutMapping("/productos/id/{id}") 
+	public  ResponseEntity<Producto> actualizar(@PathVariable Long id,
+			@RequestBody Producto request ) throws Exception {
+		
+		logger.info("call crear :" + request);
+		
+    	Producto producto_encontrado
+    		= productoService.findById(id);
+
+    	if (producto_encontrado != null) {
+    		
+			Producto producto = producto_encontrado;
+    		producto.setNombre(request.getNombre());
+    		producto.setPrecio(request.getPrecio());
+    		
+    		productoService.save(producto);
+    		
+    		return ResponseEntity.ok(producto); 
+    	
+    	} else {
+    	
+    		return ResponseEntity.notFound().build();
+    	
+    	}
+	}
 	
 }
