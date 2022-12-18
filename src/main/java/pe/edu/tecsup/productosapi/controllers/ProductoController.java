@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,7 @@ import pe.edu.tecsup.productosapi.entities.Producto;
 import pe.edu.tecsup.productosapi.services.ProductoService;
 
 @RestController
+//@RequestMapping("/api")
 public class ProductoController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
@@ -108,7 +110,21 @@ public class ProductoController {
 		
 		return ResponseEntity.ok().body("Registro eliminado");
 	}
-
+	/*
+	@GetMapping("/productos/{id}")
+	public Producto obtener(@PathVariable Long id) throws Exception{
+		logger.info("call obtener: " + id);
+		
+		Producto producto = productoService.findById(id);
+		
+		Link link = linkTo(methodOn(ProductoController.class).obtener(id)).withSelfRel();
+		producto.add(link);
+		
+		link = linkTo(methodOn(ProductoController.class).files(producto.getImagen())).withRel("imagen");
+		producto.add(link);
+		
+		return producto; 
+	}*/
 	
     @GetMapping("/productos/id/{id}")
 	public Producto obtener(@PathVariable Long id) throws Exception{

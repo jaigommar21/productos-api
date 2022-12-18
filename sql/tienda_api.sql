@@ -14,3 +14,16 @@ CREATE TABLE IF NOT EXISTS `tiendaapi`.`productos` (
 INSERT INTO `tiendaapi`.`productos` (`id`, `nombre`, `precio`, `imagen`, `detalles`, `estado`) VALUES (1, 'iphone 7', 3800, 'iphone.jpg', 'El iPhone 7 lleva la esencia del iPhone a su máxima expresión. Tiene nuevos y avanzados sistemas de cámara.', '1');
 INSERT INTO `tiendaapi`.`productos` (`id`, `nombre`, `precio`, `imagen`, `detalles`, `estado`) VALUES (2, 'Samsung Galaxy S8', 2400, 'galaxy.jpg', 'El Samsung Galaxy S8 es un hermoso celular resistente al agua con un excelente rendimiento, duración de batería y cámara.', '1');
 INSERT INTO `tiendaapi`.`productos` (`id`, `nombre`, `precio`, `imagen`, `detalles`, `estado`) VALUES (3, 'Intell Core i7 7ma Gen', 1200, 'intel.jpg', 'Intel Core i7 es una familia de procesadores 4 núcleos de la arquitectura Intel x86-64, lanzados al comercio en 2008.', '1');
+
+CREATE TABLE IF NOT EXISTS `tiendaapi`.`usuarios` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(60) NOT NULL,
+  `nombres` VARCHAR(100) NULL,
+  `correo` VARCHAR(100) NULL,
+  `imagen` VARCHAR(100) NULL,
+  `estado` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`));
+
+INSERT INTO `tiendaapi`.`usuarios` (`id`, `username`, `password`, `nombres`, `correo`, `imagen`, `estado`) VALUES (1, 'jgomezm', 'tecsup', 'Jaime Gomez', 'jgomezm@tecsup.edu.pe', 'jgomezm.jpg' , '1');
+
